@@ -19,7 +19,7 @@ public class Pessoa {
     @Enumerated(EnumType.STRING)
     private Departamento departamento;
 
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pessoaAlocada", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tarefa> tarefas = new ArrayList<>();
 
 

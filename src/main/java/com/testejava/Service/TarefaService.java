@@ -40,30 +40,6 @@ public class TarefaService {
                 result.getDepartamento(), null, result.getStatus());
     }
 
-    public void validarTarefaDTO(TarefaDTO tarefaDTO) {
-        if (tarefaDTO.titulo() == null || tarefaDTO.titulo().trim().isEmpty()) {
-            throw new ValidacaoException("O título da tarefa é obrigatório.");
-        }
-        if (tarefaDTO.descricao() == null || tarefaDTO.descricao().trim().isEmpty()) {
-            throw new ValidacaoException("A descrição da tarefa é obrigatória.");
-        }
-        if (tarefaDTO.prazo() == null) {
-            throw new ValidacaoException("O prazo da tarefa é obrigatório.");
-        }
-        if (tarefaDTO.prazo().isBefore(LocalDate.now())) {
-            throw new ValidacaoException("O prazo deve ser uma data futura.");
-        }
-
-        if (tarefaDTO.duracao() == null || tarefaDTO.duracao().isNegative() || tarefaDTO.duracao().isZero()) {
-            throw new ValidacaoException("A duração da tarefa deve ser positiva.");
-        }
-        if (tarefaDTO.departamento() == null) {
-            throw new ValidacaoException("O departamento da tarefa é obrigatório.");
-        }
-        if (tarefaDTO.statusTarefa() == null) {
-            throw new ValidacaoException("O status da tarefa é obrigatório.");
-        }
-    }
 
     @Transactional
     public TarefaDTO alocar(Long id, PessoaIdDTO pessoaIdDTO) {
@@ -113,5 +89,31 @@ public class TarefaService {
                 tarefa.getPessoaAlocada(),
                 tarefa.getStatus()
         );
+    }
+
+
+    public void validarTarefaDTO(TarefaDTO tarefaDTO) {
+        if (tarefaDTO.titulo() == null || tarefaDTO.titulo().trim().isEmpty()) {
+            throw new ValidacaoException("O título da tarefa é obrigatório.");
+        }
+        if (tarefaDTO.descricao() == null || tarefaDTO.descricao().trim().isEmpty()) {
+            throw new ValidacaoException("A descrição da tarefa é obrigatória.");
+        }
+        if (tarefaDTO.prazo() == null) {
+            throw new ValidacaoException("O prazo da tarefa é obrigatório.");
+        }
+        if (tarefaDTO.prazo().isBefore(LocalDate.now())) {
+            throw new ValidacaoException("O prazo deve ser uma data futura.");
+        }
+
+        if (tarefaDTO.duracao() == null || tarefaDTO.duracao().isNegative() || tarefaDTO.duracao().isZero()) {
+            throw new ValidacaoException("A duração da tarefa deve ser positiva.");
+        }
+        if (tarefaDTO.departamento() == null) {
+            throw new ValidacaoException("O departamento da tarefa é obrigatório.");
+        }
+        if (tarefaDTO.statusTarefa() == null) {
+            throw new ValidacaoException("O status da tarefa é obrigatório.");
+        }
     }
 }

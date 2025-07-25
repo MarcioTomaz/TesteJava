@@ -9,13 +9,14 @@ import com.testejava.Repository.PessoaRepository;
 import com.testejava.Repository.TarefaRepository;
 import com.testejava.Service.exceptions.DepartamentoException;
 import com.testejava.Service.exceptions.ResourceNotFoundException;
+import com.testejava.Service.exceptions.ValidacaoException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDate;
 
 @Service
 public class TarefaService {
@@ -41,26 +42,27 @@ public class TarefaService {
 
     public void validarTarefaDTO(TarefaDTO tarefaDTO) {
         if (tarefaDTO.titulo() == null || tarefaDTO.titulo().trim().isEmpty()) {
-            throw new IllegalArgumentException("O título da tarefa é obrigatório.");
+            throw new ValidacaoException("O título da tarefa é obrigatório.");
         }
         if (tarefaDTO.descricao() == null || tarefaDTO.descricao().trim().isEmpty()) {
-            throw new IllegalArgumentException("A descrição da tarefa é obrigatória.");
+            throw new ValidacaoException("A descrição da tarefa é obrigatória.");
         }
         if (tarefaDTO.prazo() == null) {
-            throw new IllegalArgumentException("O prazo da tarefa é obrigatório.");
+            throw new ValidacaoException("O prazo da tarefa é obrigatório.");
         }
+        if (tarefaDTO.prazo().isBefore(LocalDate.now())) {
+            throw new ValidacaoException("O prazo deve ser uma data futura.");
+        }
+
         if (tarefaDTO.duracao() == null || tarefaDTO.duracao().isNegative() || tarefaDTO.duracao().isZero()) {
-            throw new IllegalArgumentException("A duração da tarefa deve ser positiva.");
+            throw new ValidacaoException("A duração da tarefa deve ser positiva.");
         }
         if (tarefaDTO.departamento() == null) {
-            throw new IllegalArgumentException("O departamento da tarefa é obrigatório.");
+            throw new ValidacaoException("O departamento da tarefa é obrigatório.");
         }
         if (tarefaDTO.statusTarefa() == null) {
-            throw new IllegalArgumentException("O status da tarefa é obrigatório.");
+            throw new ValidacaoException("O status da tarefa é obrigatório.");
         }
-//        if (tarefaDTO.pessoaAlocada() == null) {
-//            throw new IllegalArgumentException("A pessoa alocada é obrigatória.");
-//        }
     }
 
     @Transactional

@@ -3,12 +3,12 @@ package com.testejava.Service;
 import com.testejava.Entity.DTO.PessoaDTO;
 import com.testejava.Entity.DTO.PessoaListTarefaDTO;
 import com.testejava.Entity.DTO.PessoaMediaTarefaDTO;
-import com.testejava.Entity.DTO.FilterByNameDTO;
 import com.testejava.Entity.Enums.StatusTarefa;
 import com.testejava.Entity.Pessoa;
 import com.testejava.Entity.Tarefa;
 import com.testejava.Repository.PessoaRepository;
 import com.testejava.Service.exceptions.ResourceNotFoundException;
+import com.testejava.Service.exceptions.ValidacaoException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,18 +87,6 @@ public class PessoaService {
     }
 
 
-    private void validarPessoaDTO(PessoaDTO pessoaDTO) {
-        if (pessoaDTO == null) {
-            throw new IllegalArgumentException("Os dados da pessoa não podem ser nulos.");
-        }
-        if (pessoaDTO.nome() == null || pessoaDTO.nome().trim().isEmpty()) {
-            throw new IllegalArgumentException("O nome da pessoa é obrigatório.");
-        }
-        if (pessoaDTO.departamento() == null) {
-            throw new IllegalArgumentException("O departamento da pessoa é obrigatório.");
-        }
-    }
-
     @Transactional
     public List<PessoaMediaTarefaDTO> getPessoaPorNome(String nome, LocalDate prazo) {
 
@@ -136,5 +124,18 @@ public class PessoaService {
         }
 
         return pessoasList;
+    }
+
+
+    private void validarPessoaDTO(PessoaDTO pessoaDTO) {
+        if (pessoaDTO == null) {
+            throw new ValidacaoException("Os dados da pessoa não podem ser nulos.");
+        }
+        if (pessoaDTO.nome() == null || pessoaDTO.nome().trim().isEmpty()) {
+            throw new ValidacaoException("O nome da pessoa é obrigatório.");
+        }
+        if (pessoaDTO.departamento() == null) {
+            throw new ValidacaoException("O departamento da pessoa é obrigatório.");
+        }
     }
 }

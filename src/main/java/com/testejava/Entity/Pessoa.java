@@ -1,5 +1,6 @@
 package com.testejava.Entity;
 
+import com.testejava.Entity.DTO.PessoaDTO;
 import com.testejava.Entity.Enums.Departamento;
 import jakarta.persistence.*;
 
@@ -23,4 +24,45 @@ public class Pessoa {
     private List<Tarefa> tarefas = new ArrayList<>();
 
 
+    public Pessoa(PessoaDTO pessoaDTO) {
+        this.nome = pessoaDTO.nome();
+        this.departamento = pessoaDTO.departamento();
+    }
+
+    public Pessoa() {
+
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+
+    public List<Tarefa> getTarefas() {
+        return tarefas;
+    }
+
+    public void setTarefas(List<Tarefa> tarefas) {
+        this.tarefas = tarefas;
+    }
 }
